@@ -183,41 +183,6 @@ class GeneralSettings extends Component {
     }
 
     let confirm = true;
-    if (
-      (settings.timeslotsOpenForApplicants &&
-        !preSaveSettings.timeslotsOpenForApplicants) ||
-      (!settings.timeslotsOpenForApplicants &&
-        preSaveSettings.timeslotsOpenForApplicants)
-    ) {
-      const action = settings.timeslotsOpenForApplicants
-        ? "opening"
-        : "closing";
-      const msg =
-        action === "opening"
-          ? "mean that applicants can start selecting their interview timeslots. This will trigger sending emails to every applicant to let them know."
-          : "close timeslot selection for applicants i.e. if there are those who have not yet picked a timeslot, they will no longer be able to do so.";
-      confirm = await swal({
-        title: "Modifying Timeslot Selection!",
-        text: `Saving these settings will ${msg} Are you sure you want to do this?`,
-        icon: "warning",
-        buttons: {
-          cancel: {
-            text: "No",
-            value: false,
-            visible: true,
-          },
-          confirm: {
-            text: "Yes",
-            value: true,
-            visible: true,
-          },
-        },
-      });
-
-      action === "opening"
-        ? this.props.firebase.notifyTimeslotsAreOpen()
-        : this.props.firebase.notifyTimeslotsAreClosed();
-    }
 
     if (confirm) {
       // TODO actually send an email for this
